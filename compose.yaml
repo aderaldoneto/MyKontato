@@ -8,13 +8,12 @@ services:
     volumes:
       - ./:/var/www/html
     environment:
-      APP_ENV: ${APP_ENV:-development}
-      APP_DEBUG: ${APP_DEBUG:-1}
       DB_HOST: db
       DB_PORT: 3306
-      DB_NAME: ${MYSQL_DATABASE:-mykontato}
-      DB_USER: ${MYSQL_USER:?Defina MYSQL_USER no arquivo .env}
-      DB_PASSWORD: ${MYSQL_PASSWORD:?Defina MYSQL_PASSWORD no arquivo .env}
+      DB_CONNECTION: ${DB_CONNECTION:-mysql}
+      DB_DATABASE: ${DB_DATABASE:-php_crud_agenda}
+      DB_USERNAME: ${DB_USERNAME:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
     depends_on:
       db:
         condition: service_healthy
@@ -24,10 +23,8 @@ services:
     ports:
       - "${MYSQL_PORT:-3306}:3306"
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-mykontato}
-      MYSQL_USER: ${MYSQL_USER:?Defina MYSQL_USER no arquivo .env}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Defina MYSQL_PASSWORD no arquivo .env}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Defina MYSQL_ROOT_PASSWORD no arquivo .env}
+      MYSQL_DATABASE: ${DB_DATABASE:-php_crud_agenda}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
     volumes:
       - mykontato-db-data:/var/lib/mysql
     healthcheck:

@@ -11,7 +11,7 @@ return static function (): EntityManager {
     $projectRoot = dirname(__DIR__);
     (new Dotenv())->usePutenv()->loadEnv($projectRoot . '/.env');
 
-    $required = ['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASSWORD'];
+    $required = ['DB_HOST', 'DB_DATABASE', 'DB_USERNAME', 'DB_PASSWORD'];
     foreach ($required as $key) {
         if (getenv($key) === false || getenv($key) === '') {
             throw new RuntimeException(sprintf('A variável de ambiente %s não foi definida.', $key));
@@ -20,15 +20,15 @@ return static function (): EntityManager {
 
     $config = ORMSetup::createAttributeMetadataConfiguration(
         paths: [$projectRoot . '/app/Models'],
-        isDevMode: (getenv('APP_ENV') ?: 'production') !== 'production'
+        isDevMode: true
     );
 
     $connection = DriverManager::getConnection([
         'driver' => 'pdo_mysql',
         'host' => getenv('DB_HOST'),
         'port' => (int) (getenv('DB_PORT') ?: '3306'),
-        'dbname' => getenv('DB_NAME'),
-        'user' => getenv('DB_USER'),
+        'dbname' => getenv('DB_DATABASE'),
+        'user' => getenv('DB_USERNAME'),
         'password' => getenv('DB_PASSWORD'),
         'charset' => 'utf8mb4',
     ], $config);
