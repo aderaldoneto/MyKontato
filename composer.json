@@ -1,0 +1,22 @@
+{
+    "name": "mykontato/app",
+    "description": "Esqueleto da agenda telefônica MyKontato",
+    "type": "project",
+    "require": {
+        "php": "^8.3",
+        "doctrine/orm": "^2.20",
+        "symfony/dotenv": "^7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.3.0"
+        },
+        "allow-plugins": {}
+    }
+}
