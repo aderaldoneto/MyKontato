@@ -8,7 +8,7 @@
 </head>
 <body>
     <main class="welcome">
-        <p>A aplicação está funcionando.</p>
+        <p>HOME</p>
     </main>
 </body>
 </html>
