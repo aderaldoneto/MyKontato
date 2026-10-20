@@ -47,19 +47,19 @@
                 <form class="register-form" action="/cadastro.php" method="post">
                     <input type="hidden" name="csrf_token" value="<?= $escape($csrfToken) ?>">
                     <div class="field">
-                        <label for="register-name">Nome completo</label>
+                        <label for="register-name">Nome completo <span aria-hidden="true">*</span></label>
                         <input id="register-name" name="name" type="text" maxlength="100" value="<?= $escape($values['name']) ?>" placeholder="Digite seu nome completo" autocomplete="name" required>
                     </div>
                     <div class="field">
-                        <label for="register-cpf">CPF</label>
-                        <input id="register-cpf" name="cpf" type="text" value="<?= $escape($values['cpf']) ?>" placeholder="000.000.000-00" inputmode="numeric" autocomplete="off" required>
+                        <label for="register-cpf">CPF <span aria-hidden="true">*</span></label>
+                        <input id="register-cpf" name="cpf" type="text" maxlength="14" value="<?= $escape($values['cpf']) ?>" placeholder="000.000.000-00" inputmode="numeric" autocomplete="off" required>
                     </div>
                     <div class="field">
-                        <label for="register-birth-date">Data de nascimento</label>
+                        <label for="register-birth-date">Data de nascimento <span aria-hidden="true">*</span></label>
                         <input id="register-birth-date" name="birth_date" type="date" value="<?= $escape($values['birth_date']) ?>" autocomplete="bday" required>
                     </div>
                     <div class="field">
-                        <label for="register-gender">Sexo</label>
+                        <label for="register-gender">Sexo <span aria-hidden="true">*</span></label>
                         <select id="register-gender" name="gender" required>
                             <option value="" disabled <?= $values['gender'] === '' ? 'selected' : '' ?>>Selecione</option>
                             <?php foreach (\App\Enums\Sexo::cases() as $sexo): ?>
@@ -70,27 +70,28 @@
                         </select>
                     </div>
                     <div class="field field-full">
-                        <label for="register-phone">Celular</label>
-                        <input id="register-phone" name="phone" type="tel" value="<?= $escape($values['phone']) ?>" placeholder="(00) 00000-0000" autocomplete="tel" inputmode="tel" required>
+                        <label for="register-phone">Celular <span aria-hidden="true">*</span></label>
+                        <input id="register-phone" name="phone" type="tel" maxlength="16" value="<?= $escape($values['phone']) ?>" placeholder="(99) 9 9999-9999" autocomplete="tel" inputmode="numeric" required>
                     </div>
                     <div class="field field-full">
-                        <label for="register-email">E-mail</label>
+                        <label for="register-email">E-mail <span aria-hidden="true">*</span></label>
                         <input id="register-email" name="email" type="email" maxlength="50" value="<?= $escape($values['email']) ?>" placeholder="voce@exemplo.com" autocomplete="email" required>
                     </div>
                     <div class="field field-full">
-                        <label for="register-password">Senha</label>
+                        <label for="register-password">Senha <span aria-hidden="true">*</span></label>
                         <input id="register-password" name="password" type="password" placeholder="Crie uma senha" autocomplete="new-password" required>
                     </div>
                     <div class="field field-full">
-                        <label for="register-password-confirmation">Confirmar senha</label>
+                        <label for="register-password-confirmation">Confirmar senha <span aria-hidden="true">*</span></label>
                         <input id="register-password-confirmation" name="password_confirmation" type="password" placeholder="Digite sua senha novamente" autocomplete="new-password" required>
                     </div>
-                    <button class="register-submit" type="submit">Cadastrar <span aria-hidden="true">→</span></button>
+                    <button class="register-submit" type="submit">Cadastrar</button>
                 </form>
                 <p class="signup-prompt">Já tem uma conta? <a class="text-link" href="/login.php">Entrar</a></p>
             </div>
             <p class="form-footer">© 2026 AN Tecnologia</p>
         </section>
     </main>
+    <script src="/assets/js/form.js" defer></script>
 </body>
 </html>

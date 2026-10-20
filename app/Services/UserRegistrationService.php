@@ -42,6 +42,8 @@ final class UserRegistrationService
         $birthDate = DateTimeImmutable::createFromFormat('!Y-m-d', $birthDateValue);
         if ($birthDate === false || $birthDate->format('Y-m-d') !== $birthDateValue) {
             $errors[] = 'Informe uma data de nascimento válida.';
+        } elseif ($birthDate > new DateTimeImmutable('today')) {
+            $errors[] = 'A data de nascimento não pode ser futura.';
         }
 
         $sexo = Sexo::tryFrom($gender);

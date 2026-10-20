@@ -56,7 +56,7 @@
                         <span>Manter conectado</span>
                     </label>
 
-                    <button type="submit">Entrar <span aria-hidden="true">→</span></button>
+                    <button type="submit">Entrar</button>
                 </form>
 
                 <p class="signup-prompt">Não tem uma conta? <a class="text-link" href="/cadastro.php">Cadastre-se</a></p>
