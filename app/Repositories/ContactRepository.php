@@ -38,6 +38,17 @@ final class ContactRepository
         });
     }
 
+    /** @return list<array{id: int, name: string, nickname: ?string, phone: ?string, birth_date: ?string}> */
+    public function searchActiveByUser(User $user, string $term): array
+    {
+        $term = trim($term);
+        $phoneTerm = preg_replace('/\D+/', '', $term) ?? '';
+        return $this->entityManager->getConnection()->executeQuery(
+            'SELECT id, name, nickname, phone, birth_date FROM contacts WHERE id_user = ? AND deleted_at IS NULL AND (name LIKE ? OR nickname LIKE ? OR phone LIKE ?) ORDER BY name ASC',
+            [$user->getId(), '%' . $term . '%', '%' . $term . '%', '%' . ($phoneTerm !== '' ? $phoneTerm : $term) . '%']
+        )->fetchAllAssociative();
+    }
+
     public function countActiveByUser(User $user): int
     {
         return $this->cache->get($this->cacheKey('count', $user), function (ItemInterface $item) use ($user): int {
@@ -59,6 +70,17 @@ final class ContactRepository
                 [$user->getId(), $user->getId()]
             )->fetchAllAssociative();
         });
+    }
+
+    /** @return list<array{id: int, name: string, nickname: ?string, phone: ?string, birth_date: ?string}> */
+    public function searchActiveDuplicatesByUser(User $user, string $term): array
+    {
+        $term = trim($term);
+        $phoneTerm = preg_replace('/\D+/', '', $term) ?? '';
+        return $this->entityManager->getConnection()->executeQuery(
+            "SELECT c.id, c.name, c.nickname, c.phone, c.birth_date FROM contacts c INNER JOIN (SELECT phone FROM contacts WHERE id_user = ? AND deleted_at IS NULL AND phone IS NOT NULL AND phone <> '' GROUP BY phone HAVING COUNT(id) > 1) d ON d.phone = c.phone WHERE c.id_user = ? AND c.deleted_at IS NULL AND (c.name LIKE ? OR c.nickname LIKE ? OR c.phone LIKE ?) ORDER BY c.name ASC",
+            [$user->getId(), $user->getId(), '%' . $term . '%', '%' . $term . '%', '%' . ($phoneTerm !== '' ? $phoneTerm : $term) . '%']
+        )->fetchAllAssociative();
     }
 
     public function countActiveDuplicatesByUser(User $user): int

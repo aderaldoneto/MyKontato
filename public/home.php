@@ -16,14 +16,17 @@ if ($user === null) {
 }
 
 $contactRepository = new \App\Repositories\ContactRepository($entityManager);
-$contacts = $contactRepository->findActiveByUser($user);
+$searchQuery = trim((string) ($_GET['q'] ?? ''));
+$contacts = $searchQuery === ''
+    ? $contactRepository->findActiveByUser($user)
+    : $contactRepository->searchActiveByUser($user, $searchQuery);
 $contactCount = count($contacts);
 $duplicateCount = $contactRepository->countActiveDuplicatesByUser($user);
 $userName = $user->getName();
 $userInitial = mb_strtoupper(mb_substr(trim($userName), 0, 1));
 $activeNavigation = 'contacts';
 $pageTitle = 'Contatos';
-$emptyMessage = 'Nenhum contato cadastrado.';
+$emptyMessage = $searchQuery !== '' ? 'Nenhum contato encontrado para esta busca.' : 'Nenhum contato cadastrado.';
 $showNewContactButton = true;
 $_SESSION['contact_delete_csrf'] ??= bin2hex(random_bytes(32));
 $contactDeleteCsrfToken = $_SESSION['contact_delete_csrf'];

@@ -34,7 +34,15 @@
 
                 <section class="contact-section" aria-labelledby="contact-title">
                     <div class="contact-list-heading">
-                        <h2 id="contact-title"><?= $escape($pageTitle) ?></h2>
+                        <h2 id="contact-title"></h2>
+                        <?php if (in_array($activeNavigation, ['contacts', 'duplicates'], true)): ?>
+                            <form class="contact-search" method="get" action="<?= $activeNavigation === 'duplicates' ? '/contatos-duplicados.php' : '/home.php' ?>" role="search">
+                                <input id="contact-search-input" type="search" name="q" value="<?= $escape($searchQuery) ?>" placeholder="Nome, apelido ou telefone">
+                                <button type="submit" aria-label="Buscar contatos" title="Buscar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                                </button>
+                            </form>
+                        <?php endif; ?>
                     </div>
                     <div class="contact-table-wrap">
                         <table class="contact-table">

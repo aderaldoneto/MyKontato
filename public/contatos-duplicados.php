@@ -15,15 +15,18 @@ if ($user === null) {
     exit;
 }
 
-$contacts = (new \App\Repositories\ContactRepository($entityManager))->findActiveDuplicatesByUser($user);
 $contactRepository = new \App\Repositories\ContactRepository($entityManager);
+$searchQuery = trim((string) ($_GET['q'] ?? ''));
+$contacts = $searchQuery === ''
+    ? $contactRepository->findActiveDuplicatesByUser($user)
+    : $contactRepository->searchActiveDuplicatesByUser($user, $searchQuery);
 $contactCount = $contactRepository->countActiveByUser($user);
-$duplicateCount = count($contacts);
+$duplicateCount = $contactRepository->countActiveDuplicatesByUser($user);
 $userName = $user->getName();
 $userInitial = mb_strtoupper(mb_substr(trim($userName), 0, 1));
 $activeNavigation = 'duplicates';
 $pageTitle = 'Contatos duplicados';
-$emptyMessage = 'Nenhum contato com telefone duplicado.';
+$emptyMessage = $searchQuery !== '' ? 'Nenhum contato duplicado encontrado para esta busca.' : 'Nenhum contato com telefone duplicado.';
 $showNewContactButton = false;
 $_SESSION['contact_delete_csrf'] ??= bin2hex(random_bytes(32));
 $contactDeleteCsrfToken = $_SESSION['contact_delete_csrf'];
