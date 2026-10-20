@@ -29,7 +29,7 @@ require_once dirname(__DIR__) . '/app/Enums/Sexo.php';
                 <span>My<span class="brand-light">Kontato</span></span>
             </a>
             <div class="brand-message">
-                <span class="brand-kicker">Sua agenda começa aqui</span>
+                <span class="brand-kicker">Sua agenda particular</span>
                 <h1>Seus contatos, sempre por perto.</h1>
                 <p>Crie sua conta e mantenha as informações importantes organizadas em um só lugar.</p>
             </div>
@@ -67,7 +67,7 @@ require_once dirname(__DIR__) . '/app/Enums/Sexo.php';
                         </select>
                     </div>
                     <div class="field field-full">
-                        <label for="register-phone">Telefone</label>
+                        <label for="register-phone">Celular</label>
                         <input id="register-phone" name="phone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" inputmode="tel" required>
                     </div>
                     <div class="field field-full">
