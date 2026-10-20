@@ -843,6 +843,18 @@ a {
     color: #35436b;
 }
 
+.contact-name-link {
+    color: #315cf5;
+    font-weight: 650;
+    text-decoration: none;
+}
+
+.contact-name-link:hover {
+    color: #2449d3;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .contact-table tbody tr:last-child td {
     border-bottom: 0;
 }
@@ -851,6 +863,52 @@ a {
     padding: 30px 23px;
     color: #8792ac;
     text-align: center;
+}
+
+.contact-details-page {
+}
+
+.contact-details-card {
+    padding: 8px 24px;
+    border: 1px solid #eaedf5;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.contact-details-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0;
+}
+
+.contact-details-list > div {
+    min-width: 0;
+    padding: 18px 8px;
+    border-bottom: 1px solid #eff1f6;
+}
+
+.contact-details-list dt {
+    margin-bottom: 7px;
+    color: #8290aa;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.contact-details-list dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+    color: #35436b;
+    font-size: 0.86rem;
+    line-height: 1.5;
+}
+
+.contact-details-list > div:nth-last-child(-n + 2) {
+    border-bottom: 0;
+}
+
+.contact-details-list .contact-detail-address {
+    grid-column: 1 / -1;
+    border-bottom: 0;
 }
 
 .contact-create-page {
@@ -1029,6 +1087,23 @@ a {
     .contact-form .field-full,
     .contact-form-actions {
         grid-column: auto;
+    }
+
+    .contact-details-card {
+        padding: 4px 15px;
+    }
+
+    .contact-details-list {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .contact-details-list > div:nth-last-child(-n + 2) {
+        border-bottom: 1px solid #eff1f6;
+    }
+
+    .contact-details-list .contact-detail-address {
+        grid-column: auto;
+        border-bottom: 0;
     }
 
 }

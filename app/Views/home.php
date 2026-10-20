@@ -61,7 +61,7 @@
                                 <?php else: ?>
                                     <?php foreach ($contacts as $contact): ?>
                                         <tr>
-                                            <td><?= $escape($contact->getName()) ?></td>
+                                            <td><a class="contact-name-link" href="/contato-detalhes.php?id=<?= $contact->getId() ?>"><?= $escape($contact->getName()) ?></a></td>
                                             <td><?= $escape($contact->getNickname() ?? '—') ?></td>
                                             <td><?= $escape($formatPhone($contact->getPhone())) ?></td>
                                             <td><a href="/contato-editar.php?id=<?= $contact->getId() ?>">Lápis de editar</a></td>

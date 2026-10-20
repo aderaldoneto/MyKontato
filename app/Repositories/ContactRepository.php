@@ -28,4 +28,13 @@ final class ContactRepository
             ['name' => 'ASC']
         );
     }
+
+    public function findActiveByIdForUser(int $id, User $user): ?Contact
+    {
+        return $this->entityManager->getRepository(Contact::class)->findOneBy([
+            'id' => $id,
+            'user' => $user,
+            'deletedAt' => null,
+        ]);
+    }
 }
