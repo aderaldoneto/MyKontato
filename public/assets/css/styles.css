@@ -771,6 +771,14 @@ a {
     font-size: 0.78rem;
 }
 
+.contact-table th:first-child,
+.contact-table td:first-child {
+    width: 1%;
+    padding-right: 12px;
+    padding-left: 12px;
+    white-space: nowrap;
+}
+
 .contact-table th {
     background: #fafbfe;
     color: #8290aa;
@@ -780,6 +788,18 @@ a {
 
 .contact-table td {
     color: #35436b;
+}
+
+.contact-avatar {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border-radius: 50%;
+    background: #dbe6ff;
+    color: #315cf5;
+    font-size: 0.72rem;
+    font-weight: 700;
 }
 
 .contact-table td:last-child a + a {
