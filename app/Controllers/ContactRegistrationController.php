@@ -90,7 +90,6 @@ final class ContactRegistrationController
         $activeNavigation = 'contacts';
         $csrfToken = $_SESSION['contact_csrf'];
         $isEditing = false;
-        $contactId = null;
         $escape = static fn (string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
         require dirname(__DIR__) . '/Views/contact-create.php';
     }

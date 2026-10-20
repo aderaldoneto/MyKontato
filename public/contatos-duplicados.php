@@ -24,7 +24,6 @@ $userInitial = mb_strtoupper(mb_substr(trim($userName), 0, 1));
 $activeNavigation = 'duplicates';
 $pageTitle = 'Contatos duplicados';
 $emptyMessage = 'Nenhum contato com telefone duplicado.';
-$showContactSummary = false;
 $showNewContactButton = false;
 $_SESSION['contact_delete_csrf'] ??= bin2hex(random_bytes(32));
 $contactDeleteCsrfToken = $_SESSION['contact_delete_csrf'];
