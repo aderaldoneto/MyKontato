@@ -17,9 +17,15 @@ if ($user === null) {
     exit;
 }
 
+$contactRepository = new \App\Repositories\ContactRepository($entityManager);
 $contact = $contactId !== false && $contactId !== null && $contactId > 0
-    ? (new \App\Repositories\ContactRepository($entityManager))->findActiveByIdForUser($contactId, $user)
+    ? $contactRepository->findActiveByIdForUser($contactId, $user)
     : null;
+$contactCount = $contactRepository->countActiveByUser($user);
+$duplicateCount = $contactRepository->countActiveDuplicatesByUser($user);
+$userName = $user->getName();
+$userInitial = mb_strtoupper(mb_substr(trim($userName), 0, 1));
+$activeNavigation = 'contacts';
 
 if ($contact === null) {
     http_response_code(404);

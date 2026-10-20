@@ -80,6 +80,17 @@ final class ContactEditController
         }
 
         $isEditing = true;
+        $duplicateCount = $service->countActiveDuplicatesForUser((int) $_SESSION['user_id']);
+        $contactCount = $service->countActiveContactsForUser((int) $_SESSION['user_id']);
+        $userName = $service->getUserNameForId((int) $_SESSION['user_id']);
+        if ($userName === null) {
+            $_SESSION = [];
+            session_destroy();
+            header('Location: /login.php');
+            exit;
+        }
+        $userInitial = mb_strtoupper(mb_substr(trim($userName), 0, 1));
+        $activeNavigation = 'contacts';
         $csrfToken = $_SESSION['contact_edit_csrf'];
         $escape = static fn (string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
         require dirname(__DIR__) . '/Views/contact-create.php';

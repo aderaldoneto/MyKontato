@@ -11,13 +11,13 @@
     </a>
 
     <nav class="sidebar-nav" aria-label="Navegação principal">
-        <a class="sidebar-link active" href="/home.php" aria-current="page">
+        <a class="sidebar-link<?= $activeNavigation === 'contacts' ? ' active' : '' ?>" href="/home.php"<?= $activeNavigation === 'contacts' ? ' aria-current="page"' : '' ?>>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2.5"/><circle cx="10" cy="9" r="2.5"/><path d="M6.5 17a3.5 3.5 0 0 1 7 0m2-7h2m-2 4h2"/></svg>
-            Contatos
+            Contatos (<?= $contactCount ?>)
         </a>
-        <a class="sidebar-link" href="#duplicados">
+        <a class="sidebar-link<?= $activeNavigation === 'duplicates' ? ' active' : '' ?>" href="/contatos-duplicados.php"<?= $activeNavigation === 'duplicates' ? ' aria-current="page"' : '' ?>>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10 8a2.4 2.4 0 0 1 1.7.7l3.6 3.6A2.4 2.4 0 0 1 16 14v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h6Zm-2-4a2 2 0 0 1 2-2h6a2.4 2.4 0 0 1 1.7.7l3.6 3.6A2.4 2.4 0 0 1 22 8v6a2 2 0 0 1-2 2M10 8v5a1 1 0 0 0 1 1h5m0-12v5a1 1 0 0 0 1 1h5"/></svg>
-            Duplicados
+            Duplicados (<?= $duplicateCount ?>)
         </a>
     </nav>
 
@@ -27,8 +27,8 @@
             Sair
         </a>
         <div class="profile">
-            <span class="profile-avatar" aria-hidden="true">MK</span>
-            <span><strong>Minha conta</strong><small>MyKontato</small></span>
+            <span class="profile-avatar" aria-hidden="true"><?= $escape($userInitial) ?></span>
+            <span><strong>Minha conta</strong><small><?= $escape($userName) ?></small></span>
         </div>
     </div>
 </aside>

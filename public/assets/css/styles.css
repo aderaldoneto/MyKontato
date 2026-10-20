@@ -734,67 +734,6 @@ a {
     line-height: 1;
 }
 
-.summary-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 17px;
-    margin-top: 30px;
-}
-
-.summary-card {
-    min-height: 146px;
-    padding: 18px 19px;
-    border: 1px solid #eaedf5;
-    border-radius: 10px;
-    background: #fff;
-}
-
-.summary-card-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
-}
-
-.summary-icon {
-    display: grid;
-    width: 35px;
-    height: 35px;
-    place-items: center;
-    border-radius: 9px;
-}
-
-.summary-icon svg {
-    width: 18px;
-    height: 18px;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 1.7;
-}
-
-.contacts-icon {
-    background: #eef2ff;
-    color: #4f6df2;
-}
-
-.summary-label,
-.summary-value {
-    display: block;
-}
-
-.summary-label {
-    color: #8290aa;
-    font-size: 0.69rem;
-}
-
-.summary-value {
-    margin-top: 5px;
-    color: #26365f;
-    font-size: 1.25rem;
-    font-weight: 700;
-}
-
 .contact-section {
     margin-top: 30px;
     overflow: hidden;
@@ -1129,16 +1068,6 @@ a {
 
     .dashboard-content {
         padding: 29px 19px;
-    }
-
-    .summary-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        margin-top: 22px;
-    }
-
-    .summary-card {
-        min-height: 115px;
     }
 
     .contact-create-page {

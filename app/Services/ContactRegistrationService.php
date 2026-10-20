@@ -73,6 +73,23 @@ final class ContactRegistrationService
         return $user === null ? null : $this->contacts->findActiveByIdForUser($contactId, $user);
     }
 
+    public function countActiveDuplicatesForUser(int $userId): int
+    {
+        $user = $this->users->findById($userId);
+        return $user === null ? 0 : $this->contacts->countActiveDuplicatesByUser($user);
+    }
+
+    public function countActiveContactsForUser(int $userId): int
+    {
+        $user = $this->users->findById($userId);
+        return $user === null ? 0 : $this->contacts->countActiveByUser($user);
+    }
+
+    public function getUserNameForId(int $userId): ?string
+    {
+        return $this->users->findById($userId)?->getName();
+    }
+
     public function softDelete(int $contactId, int $userId): bool
     {
         $contact = $this->findForUser($contactId, $userId);

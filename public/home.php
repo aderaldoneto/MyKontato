@@ -15,8 +15,18 @@ if ($user === null) {
     exit;
 }
 
-$contacts = (new \App\Repositories\ContactRepository($entityManager))->findActiveByUser($user);
+$contactRepository = new \App\Repositories\ContactRepository($entityManager);
+$contacts = $contactRepository->findActiveByUser($user);
 $contactCount = count($contacts);
+$duplicateCount = $contactRepository->countActiveDuplicatesByUser($user);
+$userName = $user->getName();
+$userInitial = mb_strtoupper(mb_substr(trim($userName), 0, 1));
+$activeNavigation = 'contacts';
+$pageTitle = 'Contatos';
+$summaryLabel = 'Todos os contatos';
+$emptyMessage = 'Nenhum contato cadastrado.';
+$showContactSummary = true;
+$showNewContactButton = true;
 $_SESSION['contact_delete_csrf'] ??= bin2hex(random_bytes(32));
 $contactDeleteCsrfToken = $_SESSION['contact_delete_csrf'];
 

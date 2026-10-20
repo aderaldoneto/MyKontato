@@ -24,6 +24,7 @@ final class ContactRegistrationController
         }
 
         $_SESSION['contact_csrf'] ??= bin2hex(random_bytes(32));
+        $service = null;
         $errors = [];
         $values = [
             'name' => '',
@@ -65,6 +66,28 @@ final class ContactRegistrationController
             return;
         }
 
+        try {
+            /** @var ContactRegistrationService $service */
+            $service ??= ($this->serviceFactory)();
+            $duplicateCount = $service->countActiveDuplicatesForUser((int) $_SESSION['user_id']);
+            $contactCount = $service->countActiveContactsForUser((int) $_SESSION['user_id']);
+            $userName = $service->getUserNameForId((int) $_SESSION['user_id']);
+        } catch (Throwable $exception) {
+            error_log('Falha ao carregar contadores de contatos: ' . $exception->getMessage());
+            http_response_code(500);
+            echo 'Não foi possível carregar os contatos agora. Tente novamente.';
+            return;
+        }
+
+        if ($userName === null) {
+            $_SESSION = [];
+            session_destroy();
+            header('Location: /login.php');
+            exit;
+        }
+
+        $userInitial = mb_strtoupper(mb_substr(trim($userName), 0, 1));
+        $activeNavigation = 'contacts';
         $csrfToken = $_SESSION['contact_csrf'];
         $isEditing = false;
         $contactId = null;
