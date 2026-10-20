@@ -20,7 +20,7 @@ $searchQuery = trim((string) ($_GET['q'] ?? ''));
 $contacts = $searchQuery === ''
     ? $contactRepository->findActiveByUser($user)
     : $contactRepository->searchActiveByUser($user, $searchQuery);
-$contactCount = count($contacts);
+$contactCount = $contactRepository->countActiveByUser($user);
 $duplicateCount = $contactRepository->countActiveDuplicatesByUser($user);
 $userName = $user->getName();
 $userInitial = mb_strtoupper(mb_substr(trim($userName), 0, 1));
