@@ -49,6 +49,7 @@
                         <table class="contact-table">
                             <thead>
                                 <tr>
+                                    <th scope="col"></th>
                                     <th scope="col">Nome</th>
                                     <th scope="col">Apelido</th>
                                     <th scope="col">Telefone</th>
@@ -61,6 +62,7 @@
                                 <?php else: ?>
                                     <?php foreach ($contacts as $contact): ?>
                                         <tr>
+                                            <td>IMG DE LETRA</td>
                                             <td><a class="contact-name-link" href="/contato-detalhes.php?id=<?= $contact->getId() ?>"><?= $escape($contact->getName()) ?></a></td>
                                             <td><?= $escape($contact->getNickname() ?? '—') ?></td>
                                             <td><?= $escape($formatPhone($contact->getPhone())) ?></td>
