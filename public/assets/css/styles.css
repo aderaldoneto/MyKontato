@@ -797,10 +797,60 @@ a {
 
 .contact-section {
     margin-top: 30px;
-    padding: 23px;
+    overflow: hidden;
     border: 1px solid #eaedf5;
     border-radius: 10px;
     background: #fff;
+}
+
+.contact-list-heading {
+    padding: 20px 23px;
+    border-bottom: 1px solid #eaedf5;
+}
+
+.contact-list-heading h2 {
+    margin: 0;
+    color: #26365f;
+    font-size: 0.98rem;
+    font-weight: 700;
+}
+
+.contact-table-wrap {
+    overflow-x: auto;
+}
+
+.contact-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.contact-table th,
+.contact-table td {
+    padding: 14px 23px;
+    border-bottom: 1px solid #eff1f6;
+    font-size: 0.78rem;
+}
+
+.contact-table th {
+    background: #fafbfe;
+    color: #8290aa;
+    font-size: 0.68rem;
+    font-weight: 650;
+}
+
+.contact-table td {
+    color: #35436b;
+}
+
+.contact-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.contact-table .contact-empty {
+    padding: 30px 23px;
+    color: #8792ac;
+    text-align: center;
 }
 
 .contact-create-page {

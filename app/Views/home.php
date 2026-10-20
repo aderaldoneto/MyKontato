@@ -37,12 +37,40 @@
                             <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3.5"/><path d="M3 20v-1.5A4.5 4.5 0 0 1 7.5 14h3a4.5 4.5 0 0 1 4.5 4.5V20H3Zm13-12a3.5 3.5 0 0 1 0 6.8m2 1.2a4 4 0 0 1 3 3.9v.1h-3"/></svg>
                         </span></div>
                         <span class="summary-label">Todos os contatos</span>
-                        <strong class="summary-value">555</strong>
+                        <strong class="summary-value"><?= $contactCount ?></strong>
                     </article>
                 </section>
 
                 <section class="contact-section" aria-labelledby="contact-title">
-                    <p>Lista</p>
+                    <div class="contact-list-heading">
+                        <h2 id="contact-title">Contatos</h2>
+                    </div>
+                    <div class="contact-table-wrap">
+                        <table class="contact-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Apelido</th>
+                                    <th scope="col">Telefone</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if ($contacts === []): ?>
+                                    <tr><td class="contact-empty" colspan="3">Nenhum contato cadastrado.</td></tr>
+                                <?php else: ?>
+                                    <?php foreach ($contacts as $contact): ?>
+                                        <tr>
+                                            <td><?= $escape($contact->getName()) ?></td>
+                                            <td><?= $escape($contact->getNickname() ?? '—') ?></td>
+                                            <td><?= $escape($formatPhone($contact->getPhone())) ?></td>
+                                            <td><a href="/contato-editar.php?id=<?= $contact->getId() ?>">Lápis de editar</a></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </section>
             </div>
         </main>
