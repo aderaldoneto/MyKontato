@@ -802,23 +802,52 @@ a {
     font-weight: 700;
 }
 
-.contact-table td:last-child a + a {
-    margin-left: 12px;
+.contact-table td:last-child {
+    white-space: nowrap;
 }
 
-.contact-table td:last-child a + .delete-contact-link {
-    margin-left: 12px;
+.contact-table td:last-child a,
+.contact-table td:last-child .delete-contact-link {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    border: 0;
+    border-radius: 8px;
+    background: #f4f6fc;
+    color: #315cf5;
+    vertical-align: middle;
+}
+
+.contact-table td:last-child .delete-contact-link {
+    color: #c0392b;
+}
+
+.contact-table td:last-child a:hover,
+.contact-table td:last-child .delete-contact-link:hover {
+    background: #e9eefb;
+}
+
+.contact-table td:last-child .delete-contact-link:hover {
+    background: #fbe9e7;
+}
+
+.contact-table td:last-child a:focus-visible,
+.contact-table td:last-child .delete-contact-link:focus-visible {
+    outline: 2px solid #315cf5;
+    outline-offset: 2px;
 }
 
 .contact-table .delete-contact-link {
-    display: inline-flex;
-    align-items: center;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    color: inherit;
     cursor: pointer;
-    vertical-align: middle;
+    color: #c0392b;
+}
+
+.contact-table td:last-child .preview-icon {
+    width: 18px;
+    height: 18px;
 }
 
 .contact-delete-dialog {
@@ -1123,6 +1152,128 @@ a {
     .contact-details-list .contact-detail-address {
         grid-column: auto;
         border-bottom: 0;
+    }
+
+    /* Reorganiza as células existentes da tabela em uma lista compacta. */
+    .contact-section {
+        overflow: visible;
+        border: 0;
+        background: transparent;
+    }
+
+    .contact-list-heading {
+        padding: 0 0 14px;
+        border-bottom: 0;
+    }
+
+    .contact-table-wrap,
+    .contact-table,
+    .contact-table tbody {
+        display: block;
+        width: 100%;
+        overflow: visible;
+    }
+
+    .contact-table thead {
+        display: none;
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        margin-bottom: 12px;
+        padding: 8px 14px;
+        border: 1px solid #eaedf5;
+        border-radius: 10px;
+        background: #fff;
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) td {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 0;
+        border-bottom: 1px solid #eff1f6;
+        overflow-wrap: anywhere;
+        text-align: left;
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) td:first-child {
+        display: none;
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) td:nth-child(2) {
+        order: 0;
+        grid-column: 1 / -1;
+        border-bottom-color: #dfe5f1;
+        font-size: 0.9rem;
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) td:nth-child(4) {
+        order: 1;
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) td:nth-child(5) {
+        order: 2;
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) td:nth-child(3) {
+        order: 3;
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) td:nth-child(3)::before,
+    .contact-table tbody tr:not(:has(.contact-empty)) td:nth-child(4)::before,
+    .contact-table tbody tr:not(:has(.contact-empty)) td:nth-child(5)::before {
+        flex: 0 0 7rem;
+        color: #8290aa;
+        font-size: 0.7rem;
+        font-weight: 650;
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) td:nth-child(3)::before {
+        content: 'Nascimento';
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) td:nth-child(4)::before {
+        content: 'Apelido';
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) td:nth-child(5)::before {
+        content: 'Telefone';
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) td:last-child {
+        order: 4;
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        gap: 18px;
+        padding: 12px 0 8px;
+        border-bottom: 0;
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) td:last-child a,
+    .contact-table tbody tr:not(:has(.contact-empty)) td:last-child .delete-contact-link {
+        display: inline-flex;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        background: #f4f6fc;
+        color: #315cf5;
+    }
+
+    .contact-table tbody tr:not(:has(.contact-empty)) td:last-child .delete-contact-link {
+        color: #c0392b;
+    }
+
+    .contact-table .contact-empty {
+        display: block;
+        padding: 24px 16px;
+        border: 1px solid #eaedf5;
+        border-radius: 10px;
+        background: #fff;
     }
 
 }
