@@ -21,6 +21,61 @@ final class ContactRegistrationService
     /** @return array{errors: list<string>, contact_id: ?int} */
     public function register(array $input, int $userId): array
     {
+        [$data, $errors] = $this->validate($input);
+
+        if ($errors !== []) {
+            return ['errors' => $errors, 'contact_id' => null];
+        }
+
+        $user = $this->users->findById($userId);
+        if ($user === null) {
+            return ['errors' => ['Não foi possível identificar o usuário da sessão. Entre novamente.'], 'contact_id' => null];
+        }
+
+        try {
+            $contact = new Contact($data['name'], $user);
+            $this->applyData($contact, $data);
+            $this->contacts->save($contact);
+        } catch (InvalidArgumentException $exception) {
+            return ['errors' => [$exception->getMessage()], 'contact_id' => null];
+        }
+
+        return ['errors' => [], 'contact_id' => $contact->getId()];
+    }
+
+    /** @return array{errors: list<string>, contact_id: ?int} */
+    public function update(int $contactId, array $input, int $userId): array
+    {
+        [$data, $errors] = $this->validate($input);
+        if ($errors !== []) {
+            return ['errors' => $errors, 'contact_id' => null];
+        }
+
+        $user = $this->users->findById($userId);
+        $contact = $user === null ? null : $this->contacts->findActiveByIdForUser($contactId, $user);
+        if ($contact === null) {
+            return ['errors' => ['Contato não encontrado.'], 'contact_id' => null];
+        }
+
+        try {
+            $this->applyData($contact, $data);
+            $this->contacts->save($contact);
+        } catch (InvalidArgumentException $exception) {
+            return ['errors' => [$exception->getMessage()], 'contact_id' => null];
+        }
+
+        return ['errors' => [], 'contact_id' => $contact->getId()];
+    }
+
+    public function findForUser(int $contactId, int $userId): ?Contact
+    {
+        $user = $this->users->findById($userId);
+        return $user === null ? null : $this->contacts->findActiveByIdForUser($contactId, $user);
+    }
+
+    /** @return array{0: array{name: string, nickname: string, company: string, phone: string, address: string, birth_date: string, birthDate: ?DateTimeImmutable}, 1: list<string>} */
+    private function validate(array $input): array
+    {
         $name = trim((string) ($input['name'] ?? ''));
         $nickname = trim((string) ($input['nickname'] ?? ''));
         $company = trim((string) ($input['company'] ?? ''));
@@ -54,27 +109,25 @@ final class ContactRegistrationService
             }
         }
 
-        if ($errors !== []) {
-            return ['errors' => $errors, 'contact_id' => null];
-        }
+        return [[
+            'name' => $name,
+            'nickname' => $nickname,
+            'company' => $company,
+            'phone' => $phone,
+            'address' => $address,
+            'birth_date' => $birthDateValue,
+            'birthDate' => $birthDate,
+        ], $errors];
+    }
 
-        $user = $this->users->findById($userId);
-        if ($user === null) {
-            return ['errors' => ['Não foi possível identificar o usuário da sessão. Entre novamente.'], 'contact_id' => null];
-        }
-
-        try {
-            $contact = new Contact($name, $user);
-            $contact->setNickname($nickname);
-            $contact->setCompany($company);
-            $contact->setPhone($phone === '' ? null : $phone);
-            $contact->setAddress($address);
-            $contact->setBirthDate($birthDate);
-            $this->contacts->save($contact);
-        } catch (InvalidArgumentException $exception) {
-            return ['errors' => [$exception->getMessage()], 'contact_id' => null];
-        }
-
-        return ['errors' => [], 'contact_id' => $contact->getId()];
+    /** @param array{name: string, nickname: string, company: string, phone: string, address: string, birth_date: string, birthDate: ?DateTimeImmutable} $data */
+    private function applyData(Contact $contact, array $data): void
+    {
+        $contact->setName($data['name']);
+        $contact->setNickname($data['nickname']);
+        $contact->setCompany($data['company']);
+        $contact->setPhone($data['phone'] === '' ? null : $data['phone']);
+        $contact->setAddress($data['address']);
+        $contact->setBirthDate($data['birthDate']);
     }
 }

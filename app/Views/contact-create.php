@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#17254b">
-    <title>Novo contato | MyKontato</title>
+    <title><?= $isEditing ? 'Editar contato' : 'Novo contato' ?> | MyKontato</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 <body class="app-body">
@@ -14,14 +14,14 @@
         <main class="dashboard-main">
             <header class="topbar">
                 <nav class="breadcrumb" aria-label="Caminho de navegação">
-                    <a href="/home.php">Contatos</a><span aria-hidden="true">›</span><strong>Novo contato</strong>
+                    <a href="/home.php">Contatos</a><span aria-hidden="true">›</span><strong><?= $isEditing ? 'Editar contato' : 'Novo contato' ?></strong>
                 </nav>
             </header>
 
             <div class="dashboard-content contact-create-page">
                 <section class="page-heading">
                     <div>
-                        <h1>Novo contato</h1>
+                        <h1><?= $isEditing ? 'Editar contato' : 'Novo contato' ?></h1>
                     </div>
                     <a class="secondary-button" href="/home.php">Voltar</a>
                 </section>
@@ -38,7 +38,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <form class="contact-form" action="/contato-novo.php" method="post">
+                    <form class="contact-form" action="<?= $isEditing ? '/contato-editar.php?id=' . $contactId : '/contato-novo.php' ?>" method="post">
                         <input type="hidden" name="csrf_token" value="<?= $escape($csrfToken) ?>">
                         <div class="field field-full">
                             <label for="contact-name">Nome completo<span aria-hidden="true">*</span></label>
@@ -72,7 +72,7 @@
 
                         <div class="contact-form-actions">
                             <a class="secondary-button" href="/home.php">Cancelar</a>
-                            <button class="primary-button" type="submit">Salvar contato</button>
+                            <button class="primary-button" type="submit"><?= $isEditing ? 'Salvar alterações' : 'Salvar contato' ?></button>
                         </div>
                     </form>
                 </section>
