@@ -23,6 +23,11 @@ final class UserRepository
         return $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]) !== null;
     }
 
+    public function findByEmail(string $email): ?User
+    {
+        return $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+    }
+
     public function save(User $user): void
     {
         $this->entityManager->persist($user);
