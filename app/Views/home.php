@@ -19,6 +19,12 @@
             </header>
 
             <div class="dashboard-content">
+                <?php if ($successMessage !== null): ?>
+                    <div class="form-success" role="status">
+                        <?= $escape($successMessage) ?>
+                        <button class="alert-close" type="button" aria-label="Fechar aviso">×</button>
+                    </div>
+                <?php endif; ?>
                 <section class="welcome-row">
                     <div>
                     </div>
@@ -41,5 +47,6 @@
             </div>
         </main>
     </div>
+<script src="/assets/js/alerts.js" defer></script>
 </body>
 </html>

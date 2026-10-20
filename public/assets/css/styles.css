@@ -224,10 +224,58 @@ a {
 }
 
 .form-errors {
+    position: relative;
     margin: 1rem 0;
-    padding: 0.85rem 1rem;
+    padding: 0.85rem 2.5rem 0.85rem 1rem;
     border-radius: 0.5rem;
     font-size: 0.9rem;
+}
+
+.form-success {
+    position: relative;
+    margin: 0 0 18px;
+    padding: 0.85rem 2.5rem 0.85rem 1rem;
+    border: 1px solid #c6e9d2;
+    border-radius: 0.5rem;
+    background: #edf9f1;
+    color: #17643a;
+    font-size: 0.9rem;
+}
+
+.alert-close {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.5rem;
+    display: grid;
+    width: 1.75rem;
+    height: 1.75rem;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 0.3rem;
+    background: transparent;
+    color: currentColor;
+    cursor: pointer;
+    font: inherit;
+    font-size: 1.25rem;
+    line-height: 1;
+    opacity: 0.7;
+}
+
+.alert-close:hover {
+    background: rgb(0 0 0 / 6%);
+    opacity: 1;
+}
+
+.form-errors,
+.form-success {
+    transition: opacity 100ms ease, transform 100ms ease;
+}
+
+.form-errors.is-dismissed,
+.form-success.is-dismissed {
+    opacity: 0;
+    transform: translateY(-4px);
 }
 
 .form-errors {

@@ -27,35 +27,47 @@
                 </section>
 
                 <section class="contact-form-card" aria-labelledby="contact-form-title">
+                    <?php if ($errors !== []): ?>
+                        <div class="form-errors" role="alert">
+                            <button class="alert-close" type="button" aria-label="Fechar aviso">×</button>
+                            <ul>
+                                <?php foreach ($errors as $error): ?>
+                                    <li><?= $escape($error) ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+
                     <form class="contact-form" action="/contato-novo.php" method="post">
+                        <input type="hidden" name="csrf_token" value="<?= $escape($csrfToken) ?>">
                         <div class="field field-full">
                             <label for="contact-name">Nome completo<span aria-hidden="true">*</span></label>
-                            <input id="contact-name" name="name" type="text" maxlength="100" autocomplete="name" placeholder="Nome completo" required>
+                            <input id="contact-name" name="name" type="text" maxlength="100" value="<?= $escape($values['name']) ?>" autocomplete="name" placeholder="Nome completo" required>
                         </div>
 
                         <div class="field">
                             <label for="contact-nickname">Apelido</label>
-                            <input id="contact-nickname" name="nickname" type="text" maxlength="50" placeholder="Apelido">
+                            <input id="contact-nickname" name="nickname" type="text" maxlength="50" value="<?= $escape($values['nickname']) ?>" placeholder="Apelido">
                         </div>
 
                         <div class="field">
                             <label for="contact-company">Empresa</label>
-                            <input id="contact-company" name="company" type="text" maxlength="100" autocomplete="organization" placeholder="Nome da empresa">
+                            <input id="contact-company" name="company" type="text" maxlength="100" value="<?= $escape($values['company']) ?>" autocomplete="organization" placeholder="Nome da empresa">
                         </div>
 
                         <div class="field">
                             <label for="contact-phone">Telefone</label>
-                            <input id="contact-phone" name="phone" type="tel" maxlength="16" inputmode="numeric" autocomplete="tel" placeholder="(99) 9 9999-9999">
+                            <input id="contact-phone" name="phone" type="tel" maxlength="16" value="<?= $escape($values['phone']) ?>" inputmode="numeric" autocomplete="tel" placeholder="(99) 9 9999-9999">
                         </div>
 
                         <div class="field">
                             <label for="contact-birth-date">Data de nascimento</label>
-                            <input id="contact-birth-date" name="birth_date" type="date" autocomplete="bday">
+                            <input id="contact-birth-date" name="birth_date" type="date" value="<?= $escape($values['birth_date']) ?>" autocomplete="bday">
                         </div>
 
                         <div class="field field-full">
                             <label for="contact-address">Endereço</label>
-                            <textarea id="contact-address" name="address" rows="3" autocomplete="street-address" placeholder="Rua, número, bairro, cidade"></textarea>
+                            <textarea id="contact-address" name="address" rows="3" autocomplete="street-address" placeholder="Rua, número, bairro, cidade"><?= $escape($values['address']) ?></textarea>
                         </div>
 
                         <div class="contact-form-actions">
@@ -67,6 +79,7 @@
             </div>
         </main>
     </div>
+<script src="/assets/js/alerts.js" defer></script>
 <script src="/assets/js/form.js" defer></script>
 </body>
 </html>

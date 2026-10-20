@@ -36,6 +36,7 @@
 
                 <?php if ($errors !== []): ?>
                     <div class="form-errors" role="alert">
+                        <button class="alert-close" type="button" aria-label="Fechar aviso">×</button>
                         <?php foreach ($errors as $error): ?>
                             <p><?= $escape($error) ?></p>
                         <?php endforeach; ?>
@@ -64,5 +65,6 @@
             <p class="form-footer">© 2026 AN Tecnologia</p>
         </section>
     </main>
+    <script src="/assets/js/alerts.js" defer></script>
 </body>
 </html>

@@ -28,6 +28,11 @@ final class UserRepository
         return $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
     }
 
+    public function findById(int $id): ?User
+    {
+        return $this->entityManager->find(User::class, $id);
+    }
+
     public function save(User $user): void
     {
         $this->entityManager->persist($user);
