@@ -17,6 +17,8 @@ if ($user === null) {
 
 $contacts = (new \App\Repositories\ContactRepository($entityManager))->findActiveByUser($user);
 $contactCount = count($contacts);
+$_SESSION['contact_delete_csrf'] ??= bin2hex(random_bytes(32));
+$contactDeleteCsrfToken = $_SESSION['contact_delete_csrf'];
 
 $successMessage = $_SESSION['flash_success'] ?? null;
 unset($_SESSION['flash_success']);

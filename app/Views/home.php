@@ -70,9 +70,9 @@
                                                 <a href="/contato-editar.php?id=<?= $contact->getId() ?>" title="Editar contato">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil preview-icon"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                                                 </a>
-                                                <a href="/contato-excluir.php?id=<?= $contact->getId() ?>" class="delete-contact-link" data-contact-name="<?= $escape($contact->getName()) ?>" title="Excluir contato">
+                                                <button type="button" class="delete-contact-link" data-contact-id="<?= $contact->getId() ?>" data-contact-name="<?= $escape($contact->getName()) ?>" aria-label="Excluir <?= $escape($contact->getName()) ?>" title="Excluir contato">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash preview-icon"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                                </a>
+                                                </button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -84,6 +84,19 @@
             </div>
         </main>
     </div>
+    <dialog class="contact-delete-dialog" aria-labelledby="contact-delete-title">
+        <form action="/contato-excluir.php" method="post">
+            <input type="hidden" name="csrf_token" value="<?= $escape($contactDeleteCsrfToken) ?>">
+            <input type="hidden" name="id" value="">
+            <h2 id="contact-delete-title">Excluir contato</h2>
+            <p>Tem certeza de que deseja excluir <strong data-delete-contact-name></strong>?</p>
+            <div class="contact-delete-actions">
+                <button class="secondary-button" type="button" data-delete-cancel>Cancelar</button>
+                <button class="delete-confirm-button" type="submit">Confirmar</button>
+            </div>
+        </form>
+    </dialog>
 <script src="/assets/js/alerts.js" defer></script>
+<script src="/assets/js/contact-delete.js" defer></script>
 </body>
 </html>

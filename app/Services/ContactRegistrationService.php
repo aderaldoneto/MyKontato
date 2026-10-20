@@ -73,6 +73,19 @@ final class ContactRegistrationService
         return $user === null ? null : $this->contacts->findActiveByIdForUser($contactId, $user);
     }
 
+    public function softDelete(int $contactId, int $userId): bool
+    {
+        $contact = $this->findForUser($contactId, $userId);
+        if ($contact === null) {
+            return false;
+        }
+
+        $contact->softDelete();
+        $this->contacts->save($contact);
+
+        return true;
+    }
+
     /** @return array{0: array{name: string, nickname: string, company: string, phone: string, address: string, birth_date: string, birthDate: ?DateTimeImmutable}, 1: list<string>} */
     private function validate(array $input): array
     {
