@@ -6,6 +6,7 @@
         "php": "^8.3",
         "doctrine/migrations": "^3.9",
         "doctrine/orm": "^2.20",
+        "symfony/cache": "^7.2",
         "symfony/dotenv": "^7.2"
     },
     "autoload": {
