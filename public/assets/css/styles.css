@@ -336,26 +336,6 @@ a {
     text-underline-offset: 3px;
 }
 
-.remember-option {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.65rem;
-    width: fit-content;
-    margin: 0.05rem 0 1.55rem;
-    color: #66738a;
-    cursor: pointer;
-    font-size: 0.88rem;
-}
-
-.remember-option input {
-    position: absolute;
-    width: 1.1rem;
-    height: 1.1rem;
-    margin: 0;
-    opacity: 0;
-}
-
 .checkbox-ui {
     display: inline-grid;
     width: 1.1rem;
@@ -364,25 +344,6 @@ a {
     border: 1px solid #cbd5e1;
     border-radius: 3px;
     background: #fff;
-}
-
-.remember-option input:checked + .checkbox-ui {
-    border-color: var(--blue);
-    background: var(--blue);
-}
-
-.remember-option input:checked + .checkbox-ui::after {
-    width: 0.3rem;
-    height: 0.52rem;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    content: "";
-    transform: translateY(-1px) rotate(45deg);
-}
-
-.remember-option input:focus-visible + .checkbox-ui {
-    outline: 3px solid rgb(20 88 212 / 24%);
-    outline-offset: 2px;
 }
 
 .login-form button {

@@ -51,12 +51,6 @@
                     <label for="password">Senha</label>
                     <input id="password" name="password" type="password" placeholder="Digite sua senha" autocomplete="current-password" required>
 
-                    <label class="remember-option" for="remember">
-                        <input id="remember" name="remember" type="checkbox">
-                        <span class="checkbox-ui" aria-hidden="true"></span>
-                        <span>Manter conectado</span>
-                    </label>
-
                     <button type="submit">Entrar</button>
                 </form>
 
