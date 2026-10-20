@@ -54,16 +54,16 @@
                                 <?php else: ?>
                                     <?php foreach ($contacts as $contact): ?>
                                         <tr>
-                                            <td><span class="contact-avatar" aria-hidden="true"><?= $escape(mb_strtoupper(mb_substr($contact->getName(), 0, 1))) ?></span></td>
-                                            <td><a class="contact-name-link" href="/contato-detalhes.php?id=<?= $contact->getId() ?><?= $activeNavigation === 'duplicates' ? '&amp;from=duplicates' : '' ?>"><?= $escape($contact->getName()) ?></a></td>
-                                            <td><?= $escape($contact->getBirthDate()?->format('d/m/Y') ?? '—') ?></td>
-                                            <td><?= $escape($contact->getNickname() ?? '—') ?></td>
-                                            <td><?= $escape($formatPhone($contact->getPhone())) ?></td>
+                                            <td><span class="contact-avatar" aria-hidden="true"><?= $escape(mb_strtoupper(mb_substr($contact['name'], 0, 1))) ?></span></td>
+                                            <td><a class="contact-name-link" href="/contato-detalhes.php?id=<?= $contact['id'] ?><?= $activeNavigation === 'duplicates' ? '&amp;from=duplicates' : '' ?>"><?= $escape($contact['name']) ?></a></td>
+                                            <td><?= $escape($contact['birth_date'] !== null ? (new DateTimeImmutable($contact['birth_date']))->format('d/m/Y') : '—') ?></td>
+                                            <td><?= $escape($contact['nickname'] ?? '—') ?></td>
+                                            <td><?= $escape($formatPhone($contact['phone'])) ?></td>
                                             <td>
-                                                <a href="/contato-editar.php?id=<?= $contact->getId() ?>" title="Editar contato">
+                                                <a href="/contato-editar.php?id=<?= $contact['id'] ?>" title="Editar contato">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil preview-icon"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                                                 </a>
-                                                <button type="button" class="delete-contact-link" data-contact-id="<?= $contact->getId() ?>" data-contact-name="<?= $escape($contact->getName()) ?>" aria-label="Excluir <?= $escape($contact->getName()) ?>" title="Excluir contato">
+                                                <button type="button" class="delete-contact-link" data-contact-id="<?= $contact['id'] ?>" data-contact-name="<?= $escape($contact['name']) ?>" aria-label="Excluir <?= $escape($contact['name']) ?>" title="Excluir contato">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash preview-icon"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                                                 </button>
                                             </td>
