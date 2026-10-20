@@ -99,5 +99,6 @@
     </dialog>
 <script src="/assets/js/alerts.js" defer></script>
 <script src="/assets/js/contact-delete.js" defer></script>
+<script src="/assets/js/contact-search.js" defer></script>
 </body>
 </html>
