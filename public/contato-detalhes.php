@@ -25,7 +25,10 @@ $contactCount = $contactRepository->countActiveByUser($user);
 $duplicateCount = $contactRepository->countActiveDuplicatesByUser($user);
 $userName = $user->getName();
 $userInitial = mb_strtoupper(mb_substr(trim($userName), 0, 1));
-$activeNavigation = 'contacts';
+$fromDuplicates = ($_GET['from'] ?? '') === 'duplicates';
+$activeNavigation = $fromDuplicates ? 'duplicates' : 'contacts';
+$listUrl = $fromDuplicates ? '/contatos-duplicados.php' : '/home.php';
+$listTitle = $fromDuplicates ? 'Contatos duplicados' : 'Contatos';
 
 if ($contact === null) {
     http_response_code(404);

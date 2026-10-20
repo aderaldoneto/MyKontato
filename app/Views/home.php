@@ -55,7 +55,7 @@
                                     <?php foreach ($contacts as $contact): ?>
                                         <tr>
                                             <td><span class="contact-avatar" aria-hidden="true"><?= $escape(mb_strtoupper(mb_substr($contact->getName(), 0, 1))) ?></span></td>
-                                            <td><a class="contact-name-link" href="/contato-detalhes.php?id=<?= $contact->getId() ?>"><?= $escape($contact->getName()) ?></a></td>
+                                            <td><a class="contact-name-link" href="/contato-detalhes.php?id=<?= $contact->getId() ?><?= $activeNavigation === 'duplicates' ? '&amp;from=duplicates' : '' ?>"><?= $escape($contact->getName()) ?></a></td>
                                             <td><?= $escape($contact->getBirthDate()?->format('d/m/Y') ?? '—') ?></td>
                                             <td><?= $escape($contact->getNickname() ?? '—') ?></td>
                                             <td><?= $escape($formatPhone($contact->getPhone())) ?></td>

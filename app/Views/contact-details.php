@@ -14,7 +14,7 @@
         <main class="dashboard-main">
             <header class="topbar">
                 <nav class="breadcrumb" aria-label="Caminho de navegação">
-                    <a href="/home.php">Contatos</a><span aria-hidden="true">›</span><strong>Detalhes do contato</strong>
+                    <a href="<?= $escape($listUrl) ?>"><?= $escape($listTitle) ?></a><span aria-hidden="true">›</span><strong>Detalhes do contato</strong>
                 </nav>
             </header>
 
@@ -26,7 +26,7 @@
                             <p><?= $escape($contact->getNickname()) ?></p>
                         <?php endif; ?>
                     </div>
-                    <a class="secondary-button" href="/home.php">Voltar</a>
+                    <a class="secondary-button" href="<?= $escape($listUrl) ?>">Voltar</a>
                 </section>
 
                 <?php if ($contact !== null): ?>
