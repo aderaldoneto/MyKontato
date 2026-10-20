@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Dotenv\Dotenv;
 
 return static function (): EntityManager {
@@ -18,10 +19,15 @@ return static function (): EntityManager {
         }
     }
 
+    $cacheDirectory = sys_get_temp_dir() . '/mykontato-doctrine';
+    $cache = new FilesystemAdapter('doctrine', 0, $cacheDirectory);
     $config = ORMSetup::createAttributeMetadataConfiguration(
         paths: [$projectRoot . '/app/Models'],
-        isDevMode: true
+        isDevMode: getenv('APP_ENV') !== 'prod',
+        proxyDir: $cacheDirectory . '/proxies',
+        cache: $cache
     );
+    $config->setQueryCache($cache);
 
     $connection = DriverManager::getConnection([
         'driver' => 'pdo_mysql',

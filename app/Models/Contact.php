@@ -10,7 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'contacts', indexes: [new ORM\Index(name: 'IDX_CONTACTS_USER', columns: ['id_user'])])]
+#[ORM\Table(name: 'contacts', indexes: [
+    new ORM\Index(name: 'IDX_CONTACTS_USER', columns: ['id_user']),
+    new ORM\Index(name: 'IDX_CONTACTS_USER_DELETED_PHONE', columns: ['id_user', 'deleted_at', 'phone']),
+])]
 class Contact
 {
     #[ORM\Id]
