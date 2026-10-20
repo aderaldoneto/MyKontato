@@ -124,6 +124,88 @@ final class RegistrationServicesTest extends TestCase
         self::assertContains('Informe um telefone com DDD e 10 ou 11 dígitos.', $result['errors']);
     }
 
+    public function testRejeitaNomeVazioEDataDeNascimentoInvalida(): void
+    {
+        $userId = $this->criarUsuario();
+        $service = $this->contactService();
+
+        $result = $service->register([
+            'name' => '  ',
+            'birth_date' => '2025-02-30',
+        ], $userId);
+
+        self::assertNull($result['contact_id']);
+        self::assertContains('Informe o nome do contato (até 100 caracteres).', $result['errors']);
+        self::assertContains('Informe uma data de nascimento válida.', $result['errors']);
+    }
+
+    public function testListaContatosAtivosOrdenadosDoUsuario(): void
+    {
+        $userId = $this->criarUsuario();
+        $service = $this->contactService();
+        $service->register(['name' => 'Zeca', 'birth_date' => '1980-01-02'], $userId);
+        $service->register(['name' => 'Ana', 'birth_date' => '1990-03-04'], $userId);
+
+        $user = $this->entityManager->find(User::class, $userId);
+        self::assertInstanceOf(User::class, $user);
+        $contacts = (new ContactRepository($this->entityManager))->findActiveByUser($user);
+
+        self::assertCount(2, $contacts);
+        self::assertSame(['Ana', 'Zeca'], array_map(static fn (Contact $contact): string => $contact->getName(), $contacts));
+        self::assertSame('1990-03-04', $contacts[0]->getBirthDate()?->format('Y-m-d'));
+    }
+
+    public function testAtualizaContatoERefleteOsNovosDados(): void
+    {
+        $userId = $this->criarUsuario();
+        $service = $this->contactService();
+        $created = $service->register(['name' => 'Bruno', 'address' => 'Rua A', 'birth_date' => '1990-01-01'], $userId);
+        self::assertNotNull($created['contact_id']);
+
+        $result = $service->update($created['contact_id'], [
+            'name' => 'Bruno Silva',
+            'address' => 'Rua B, 20',
+            'birth_date' => '1991-02-03',
+        ], $userId);
+
+        self::assertSame([], $result['errors']);
+        $this->entityManager->clear();
+        $updated = $service->findForUser($created['contact_id'], $userId);
+        self::assertInstanceOf(Contact::class, $updated);
+        self::assertSame('Bruno Silva', $updated->getName());
+        self::assertSame('Rua B, 20', $updated->getAddress());
+        self::assertSame('1991-02-03', $updated->getBirthDate()?->format('Y-m-d'));
+    }
+
+    public function testExcluiContatoDaListagemAtiva(): void
+    {
+        $userId = $this->criarUsuario();
+        $service = $this->contactService();
+        $created = $service->register(['name' => 'Para excluir'], $userId);
+        self::assertNotNull($created['contact_id']);
+
+        self::assertTrue($service->softDelete($created['contact_id'], $userId));
+        self::assertNull($service->findForUser($created['contact_id'], $userId));
+        self::assertSame(0, $service->countActiveContactsForUser($userId));
+    }
+
+    private function criarUsuario(): int
+    {
+        $result = (new UserRegistrationService(new UserRepository($this->entityManager)))
+            ->register($this->dadosUsuario());
+        self::assertNotNull($result['user_id']);
+
+        return $result['user_id'];
+    }
+
+    private function contactService(): ContactRegistrationService
+    {
+        return new ContactRegistrationService(
+            new ContactRepository($this->entityManager),
+            new UserRepository($this->entityManager)
+        );
+    }
+
     /** @return array{name: string, cpf: string, email: string, birth_date: string, gender: string, phone: string, password: string, password_confirmation: string} */
     private function dadosUsuario(): array
     {
