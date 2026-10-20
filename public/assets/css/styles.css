@@ -843,6 +843,10 @@ a {
     color: #35436b;
 }
 
+.contact-table td:last-child a + a {
+    margin-left: 12px;
+}
+
 .contact-name-link {
     color: #315cf5;
     font-weight: 650;
