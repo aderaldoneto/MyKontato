@@ -177,6 +177,33 @@ final class RegistrationServicesTest extends TestCase
         self::assertSame('1991-02-03', $updated->getBirthDate()?->format('Y-m-d'));
     }
 
+    public function testRejeitaEdicaoComNomeVazioOuDataInvalidaSemAlterarContato(): void
+    {
+        $userId = $this->criarUsuario();
+        $service = $this->contactService();
+        $created = $service->register([
+            'name' => 'Contato original',
+            'birth_date' => '1990-05-09',
+        ], $userId);
+        self::assertNotNull($created['contact_id']);
+
+        $missingName = $service->update($created['contact_id'], [
+            'name' => ' ',
+            'birth_date' => '1990-05-09',
+        ], $userId);
+        $invalidDate = $service->update($created['contact_id'], [
+            'name' => 'Contato alterado',
+            'birth_date' => '2025-02-30',
+        ], $userId);
+
+        self::assertContains('Informe o nome do contato (até 100 caracteres).', $missingName['errors']);
+        self::assertContains('Informe uma data de nascimento válida.', $invalidDate['errors']);
+        $contact = $service->findForUser($created['contact_id'], $userId);
+        self::assertInstanceOf(Contact::class, $contact);
+        self::assertSame('Contato original', $contact->getName());
+        self::assertSame('1990-05-09', $contact->getBirthDate()?->format('Y-m-d'));
+    }
+
     public function testExcluiContatoDaListagemAtiva(): void
     {
         $userId = $this->criarUsuario();
@@ -187,6 +214,57 @@ final class RegistrationServicesTest extends TestCase
         self::assertTrue($service->softDelete($created['contact_id'], $userId));
         self::assertNull($service->findForUser($created['contact_id'], $userId));
         self::assertSame(0, $service->countActiveContactsForUser($userId));
+        $user = $this->entityManager->find(User::class, $userId);
+        self::assertInstanceOf(User::class, $user);
+        self::assertSame([], (new ContactRepository($this->entityManager))->findActiveByUser($user));
+    }
+
+    public function testListaRenderizaDataDeNascimentoAcoesEConfirmacaoDeExclusao(): void
+    {
+        $userId = $this->criarUsuario();
+        $result = $this->contactService()->register([
+            'name' => 'Bruno Silva',
+            'nickname' => 'Bru',
+            'phone' => '71987654321',
+            'birth_date' => '1990-05-09',
+        ], $userId);
+        self::assertNotNull($result['contact_id']);
+        $contact = $this->entityManager->find(Contact::class, $result['contact_id']);
+        self::assertInstanceOf(Contact::class, $contact);
+
+        $html = $this->renderHomeView([$contact]);
+
+        self::assertStringContainsString('Data de nascimento', $html);
+        self::assertStringContainsString('09/05/1990', $html);
+        self::assertStringContainsString('contato-editar.php?id=' . $result['contact_id'], $html);
+        self::assertStringContainsString('Excluir Bruno Silva', $html);
+        self::assertStringContainsString('Tem certeza de que deseja excluir', $html);
+        self::assertStringContainsString('action="/contato-excluir.php"', $html);
+    }
+
+    public function testFormularioDeContatoExponeCamposEValidacaoDeNome(): void
+    {
+        $values = [
+            'name' => '',
+            'nickname' => '',
+            'company' => '',
+            'phone' => '',
+            'birth_date' => '',
+            'address' => '',
+        ];
+        $errors = ['Informe o nome do contato (até 100 caracteres).'];
+        $html = $this->renderContactForm($values, $errors, false);
+
+        self::assertStringContainsString('name="name"', $html);
+        self::assertStringContainsString('name="address"', $html);
+        self::assertStringContainsString('name="birth_date"', $html);
+        self::assertStringContainsString('required', $html);
+        self::assertStringContainsString('Informe o nome do contato', $html);
+        self::assertStringContainsString('action="/contato-novo.php"', $html);
+
+        $editHtml = $this->renderContactForm($values, [], true);
+        self::assertStringContainsString('action="/contato-editar.php?id=42"', $editHtml);
+        self::assertStringContainsString('Salvar alterações', $editHtml);
     }
 
     private function criarUsuario(): int
@@ -204,6 +282,46 @@ final class RegistrationServicesTest extends TestCase
             new ContactRepository($this->entityManager),
             new UserRepository($this->entityManager)
         );
+    }
+
+    /** @param list<Contact> $contacts */
+    private function renderHomeView(array $contacts): string
+    {
+        $contactDeleteCsrfToken = 'csrf-test-token';
+        $pageTitle = 'Contatos';
+        $emptyMessage = 'Nenhum contato cadastrado.';
+        $showNewContactButton = true;
+        $successMessage = null;
+        $contactCount = count($contacts);
+        $duplicateCount = 0;
+        $userName = 'Ana Souza';
+        $userInitial = 'A';
+        $activeNavigation = 'contacts';
+        $escape = static fn (string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+        $formatPhone = static fn (?string $phone): string => $phone ?? '—';
+
+        ob_start();
+        require dirname(__DIR__) . '/app/Views/home.php';
+
+        return (string) ob_get_clean();
+    }
+
+    /** @param array<string, string> $values @param list<string> $errors */
+    private function renderContactForm(array $values, array $errors, bool $isEditing): string
+    {
+        $csrfToken = 'csrf-test-token';
+        $contactId = $isEditing ? 42 : null;
+        $duplicateCount = 0;
+        $contactCount = 0;
+        $userName = 'Ana Souza';
+        $userInitial = 'A';
+        $activeNavigation = 'contacts';
+        $escape = static fn (string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+
+        ob_start();
+        require dirname(__DIR__) . '/app/Views/contact-create.php';
+
+        return (string) ob_get_clean();
     }
 
     /** @return array{name: string, cpf: string, email: string, birth_date: string, gender: string, phone: string, password: string, password_confirmation: string} */
