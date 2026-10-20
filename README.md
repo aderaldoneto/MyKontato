@@ -26,6 +26,14 @@ Instale as dependências Composer dentro do container:
 docker compose exec app composer install
 ```
 
+## Testes
+
+Os testes usam SQLite em memória e não precisam conectar ao banco da aplicação. Com o container `app` em execução:
+
+```sh
+docker compose exec app composer test
+```
+
 O serviço `db` cria `DB_DATABASE` na primeira inicialização e usa `DB_PASSWORD` como senha do usuário root do MySQL. Se já houver um volume MySQL inicializado com outro banco ou credenciais, a imagem não reaplica essas variáveis aos dados existentes.
 
 ## Extras

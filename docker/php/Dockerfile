@@ -1,8 +1,8 @@
 FROM php:8.3.27-apache-bookworm
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libicu-dev libonig-dev unzip \
-    && docker-php-ext-install -j"$(nproc)" intl mbstring pdo_mysql \
+    && apt-get install -y --no-install-recommends libicu-dev libonig-dev libsqlite3-dev unzip \
+    && docker-php-ext-install -j"$(nproc)" intl mbstring pdo_mysql pdo_sqlite \
     && a2enmod rewrite \
     && rm -rf /var/lib/apt/lists/*
 
