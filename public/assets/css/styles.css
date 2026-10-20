@@ -28,7 +28,7 @@ a {
 
 .login-page {
     display: grid;
-    grid-template-columns: minmax(360px, 0.92fr) minmax(480px, 1.08fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     min-height: 100vh;
     background: #fff;
 }
@@ -149,8 +149,94 @@ a {
     margin: auto 0;
 }
 
-.mobile-brand {
-    display: none;
+.register-card {
+    width: min(100%, 40rem);
+    margin: auto 0;
+    display: block;
+}
+
+.register-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.1rem;
+}
+
+.field {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.field-full {
+    grid-column: 1 / -1;
+}
+
+.field label {
+    color: #25324b;
+    font-size: 0.84rem;
+    font-weight: 650;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    min-height: 3.1rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid #dce3ef;
+    border-radius: 0.65rem;
+    outline: none;
+    background-color: #fff;
+    color: #17233b;
+    font: inherit;
+    font-size: 0.9rem;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.field textarea {
+    min-height: 5.4rem;
+    resize: vertical;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+    color: #a3adbd;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    border-color: #4e88ec;
+    box-shadow: 0 0 0 3px rgb(20 88 212 / 12%);
+}
+
+.register-submit {
+    display: flex;
+    grid-column: 1 / -1;
+    min-height: 3.35rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    margin-top: 0.2rem;
+    border: 0;
+    border-radius: 0.65rem;
+    background: var(--blue);
+    box-shadow: 0 0.5rem 1rem rgb(20 88 212 / 18%);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.96rem;
+    font-weight: 700;
+    transition: background 150ms ease, transform 150ms ease;
+}
+
+.register-submit:hover {
+    background: var(--blue-dark);
+}
+
+.register-submit:active {
+    transform: translateY(1px);
 }
 
 .form-welcome {
@@ -159,7 +245,8 @@ a {
     letter-spacing: 0.1em;
 }
 
-.login-card h2 {
+.login-card h2,
+.register-card h2 {
     margin: 0;
     color: #17233b;
     font-size: clamp(1.8rem, 3vw, 2.25rem);
@@ -334,10 +421,6 @@ a {
 }
 
 @media (max-width: 800px) {
-    .login-page {
-        grid-template-columns: minmax(300px, 0.8fr) minmax(400px, 1.2fr);
-    }
-
     .brand-panel {
         padding: 2.25rem;
     }
@@ -359,11 +442,29 @@ a {
     }
 
     .brand-panel {
+        display: flex;
+        min-height: auto;
+        padding: 1.5rem;
+    }
+
+    .brand-message {
+        margin: 0;
+        padding: 1.75rem 0 0.5rem;
+    }
+
+    .brand-message h1 {
+        max-width: 16ch;
+        margin: 0.65rem 0;
+        font-size: clamp(1.6rem, 7vw, 2.2rem);
+    }
+
+    .brand-message p,
+    .brand-footer {
         display: none;
     }
 
     .form-panel {
-        min-height: 100svh;
+        min-height: calc(100svh - 11rem);
         padding: 2.5rem 1.5rem 1.25rem;
     }
 
@@ -371,35 +472,24 @@ a {
         width: min(100%, 26rem);
     }
 
-    .mobile-brand {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.65rem;
-        margin-bottom: 3rem;
-        color: var(--blue);
-        font-size: 1.25rem;
-        font-weight: 750;
-        letter-spacing: -0.05em;
-    }
-
-    .mobile-brand .brand-light {
-        color: #40516c;
-    }
-
-    .mobile-brand .brand-mark {
-        width: 1.8rem;
-        height: 1.8rem;
-    }
-
-    .mobile-brand .brand-mark::before,
-    .mobile-brand .brand-mark::after,
-    .mobile-brand .brand-mark span {
-        background: #fff;
+    .register-card {
+        width: min(100%, 30rem);
     }
 
     .form-description {
         margin-bottom: 1.9rem;
     }
+
+    .register-form {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.9rem;
+    }
+
+    .field-full,
+    .register-submit {
+        grid-column: auto;
+    }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
